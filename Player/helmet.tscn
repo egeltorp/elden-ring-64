@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://ditwdwhgixo08"]
+
+[ext_resource type="PackedScene" uid="uid://dwn6gm3gurvxw" path="res://Player/helmet.glb" id="1_8h42h"]
+[ext_resource type="Texture2D" uid="uid://2uoeyceqcfho" path="res://Player/helmet_helmet.png" id="2_w7sto"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6tjtj"]
+shading_mode = 2
+albedo_texture = ExtResource("2_w7sto")
+metallic_specular = 0.0
+
+[node name="helmet" instance=ExtResource("1_8h42h")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Icosphere" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_6tjtj")

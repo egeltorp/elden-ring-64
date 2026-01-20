@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwetr6vp3auk7"]
+
+[ext_resource type="PackedScene" uid="uid://ntys7cnhflk2" path="res://Player/player_model.glb" id="1_shud5"]
+[ext_resource type="Texture2D" uid="uid://mkm278u8bjeh" path="res://Player/player_model_tex.png" id="2_0n4ac"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8g6on"]
+shading_mode = 2
+albedo_texture = ExtResource("2_0n4ac")
+
+[node name="player_model" instance=ExtResource("1_shud5")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="Cube_Material_001_0" parent="Sketchfab_model/85a575669ddd4d7ba23d2310735f6456_fbx/RootNode/Cube" index="0"]
+material_override = SubResource("StandardMaterial3D_8g6on")

@@ -1,10 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://c0mloyx3bd13a"]
+[gd_scene load_steps=17 format=3 uid="uid://c0mloyx3bd13a"]
 
 [ext_resource type="Shader" uid="uid://cn466dcpr5lhd" path="res://Shaders/WaterSlider.gdshader" id="1_kln2b"]
 [ext_resource type="Texture2D" uid="uid://bmtt0g45efs5h" path="res://Textures/N64_Water.png" id="2_rgh2o"]
 [ext_resource type="Script" uid="uid://dw6od0ulevfu0" path="res://Scenes/camera_pivot.gd" id="3_kln2b"]
 [ext_resource type="Texture2D" uid="uid://cyso88xs8jgb3" path="res://Textures/Dirt.png" id="3_rgh2o"]
 [ext_resource type="Texture2D" uid="uid://bghfqlvqj7kx5" path="res://Textures/UI_placeholder.png" id="5_pbw6q"]
+[ext_resource type="Texture2D" uid="uid://bcnqutjajvcwx" path="res://Textures/Stone bricks.png" id="6_v1gob"]
+[ext_resource type="PackedScene" uid="uid://bwetr6vp3auk7" path="res://Player/player_model.tscn" id="7_jw32o"]
+[ext_resource type="PackedScene" uid="uid://ditwdwhgixo08" path="res://Player/helmet.tscn" id="8_50glp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rgh2o"]
 render_priority = 0
@@ -44,42 +47,70 @@ fog_depth_begin = 30.0
 fog_depth_end = 98.5
 volumetric_fog_density = 0.0197
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_idj7w"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jw32o"]
+shading_mode = 2
+albedo_texture = ExtResource("6_v1gob")
+uv1_scale = Vector3(30.25, 13.355, 13.01)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pbw6q"]
+size = Vector3(17.365, 8.77, 2.625)
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Water" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5421924, 0)
-material_override = SubResource("ShaderMaterial_rgh2o")
-mesh = SubResource("PlaneMesh_c1w88")
-surface_material_override/0 = SubResource("StandardMaterial3D_idj7w")
-
-[node name="Ground" type="MeshInstance3D" parent="."]
-mesh = SubResource("PlaneMesh_pbw6q")
-surface_material_override/0 = SubResource("StandardMaterial3D_v1gob")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_idj7w")
-
-[node name="Player" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_idj7w")
-
-[node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.98203456, 0.18870127, 0, -0.18870127, 0.98203456, 0, 2.407608, 4.880249)
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.98203456, 0.18870127, 0, -0.18870127, 0.98203456, 0, 2.532312, 2.7739365)
 current = true
 fov = 55.0
 
 [node name="CameraPivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8534145, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36937332, 0)
 script = ExtResource("3_kln2b")
 disabled = false
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.9337243, 0.3579932, 0, -0.3579932, 0.9337243, 0, 3.7252789, 9.130482)
+transform = Transform3D(1, 0, 0, 0, 0.958068, 0.28654128, 0, -0.28654128, 0.958068, 0, 2.9558907, 5.716048)
 fov = 60.0
 
-[node name="Control" type="Control" parent="."]
+[node name="player_model" parent="." instance=ExtResource("7_jw32o")]
+transform = Transform3D(-0.5, 0, -4.371139e-08, 0, 0.5, 0, 4.371139e-08, 0, -0.5, 0, 0, 0)
+
+[node name="helmet" parent="player_model" instance=ExtResource("8_50glp")]
+transform = Transform3D(-1.5581908, 0.08240944, 0.4165033, 0.13182178, 1.5998932, 0.1766065, -0.40359545, 0.20439062, -1.5503418, 0, 3.6354518, 0)
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Water" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5421924, 0)
+material_override = SubResource("ShaderMaterial_rgh2o")
+mesh = SubResource("PlaneMesh_c1w88")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_idj7w")
+
+[node name="Ground" type="MeshInstance3D" parent="Environment"]
+mesh = SubResource("PlaneMesh_pbw6q")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_v1gob")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_idj7w")
+
+[node name="Wall" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(0.76296175, 0, 0.6464436, 0, 1, 0, -0.6464436, 0, 0.76296175, -7.1702414, 2.177144, -14.730255)
+material_override = SubResource("StandardMaterial3D_jw32o")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_pbw6q")
+skeleton = NodePath("../..")
+
+[node name="Wall" type="MeshInstance3D" parent="Environment/Wall"]
+transform = Transform3D(0.76296175, 0, 0.6464436, 0, 1, 0, -0.6464436, 0, 0.76296175, 5.621589, -1.3165975, 27.280127)
+material_override = SubResource("StandardMaterial3D_jw32o")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_pbw6q")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(0.88497955, -0.23502138, -0.40196538, 0.46562994, 0.44668332, 0.7639783, 0, -0.8632723, 0.50473857, 0, 0, 0)
+
+[node name="UI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,7 +120,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="Control"]
+[node name="TextureRect" type="TextureRect" parent="UI"]
 texture_filter = 2
 layout_mode = 1
 anchors_preset = 15
