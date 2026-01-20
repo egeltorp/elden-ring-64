@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://dglkxl8g2gy0x"]
+
+[ext_resource type="Script" uid="uid://cjc8nnqalsrfb" path="res://Player/player_controller.gd" id="1_8rupm"]
+[ext_resource type="PackedScene" uid="uid://bwetr6vp3auk7" path="res://Player/player_model.tscn" id="1_uhx54"]
+[ext_resource type="PackedScene" uid="uid://ditwdwhgixo08" path="res://Player/helmet.tscn" id="3_bacvh"]
+[ext_resource type="Script" uid="uid://yk3jkkdvs1l2" path="res://Player/camera_3d.gd" id="3_ldje2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7uu3j"]
+
+[node name="PlayerController" type="CharacterBody3D"]
+script = ExtResource("1_8rupm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_7uu3j")
+
+[node name="Visuals" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="player_model" parent="Visuals" instance=ExtResource("1_uhx54")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -1, 0)
+
+[node name="helmet" parent="Visuals" instance=ExtResource("3_bacvh")]
+transform = Transform3D(-1, 2.1995257e-08, -8.461058e-08, 0, 0.96783227, 0.25159642, 8.742278e-08, 0.25159642, -0.96783227, 1.6004826e-09, 0.8054812, 0.018307388)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 1.9396834e-08, -1.7322681e-07, -9.1269214e-12, 0.99379504, 0.111226134, 1.7430942e-07, -0.111226134, 0.99379504, 0, 1.7925429, 4.382348)
+current = true
+fov = 55.0
+script = ExtResource("3_ldje2")
+target = NodePath("..")
+distance = 7.0
+height = 3.0
+follow_speed = 4.5
