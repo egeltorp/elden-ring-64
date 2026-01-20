@@ -1,3 +1,100 @@
-[gd_scene format=3 uid="uid://c0mloyx3bd13a"]
+[gd_scene load_steps=13 format=3 uid="uid://c0mloyx3bd13a"]
+
+[ext_resource type="Shader" uid="uid://cn466dcpr5lhd" path="res://Shaders/WaterSlider.gdshader" id="1_kln2b"]
+[ext_resource type="Texture2D" uid="uid://bmtt0g45efs5h" path="res://Textures/N64_Water.png" id="2_rgh2o"]
+[ext_resource type="Script" uid="uid://dw6od0ulevfu0" path="res://Scenes/camera_pivot.gd" id="3_kln2b"]
+[ext_resource type="Texture2D" uid="uid://cyso88xs8jgb3" path="res://Textures/Dirt.png" id="3_rgh2o"]
+[ext_resource type="Texture2D" uid="uid://bghfqlvqj7kx5" path="res://Textures/UI_placeholder.png" id="5_pbw6q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rgh2o"]
+render_priority = 0
+shader = ExtResource("1_kln2b")
+shader_parameter/water_texture = ExtResource("2_rgh2o")
+shader_parameter/scroll_speed = Vector2(0.1, 0.05)
+shader_parameter/texture_scale = Vector2(225, 225)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_c1w88"]
+size = Vector2(300, 300)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_idj7w"]
+shading_mode = 2
+disable_specular_occlusion = true
+albedo_color = Color(0.35686275, 0.4, 0.35686275, 1)
+albedo_texture = ExtResource("2_rgh2o")
+uv1_scale = Vector3(15, 15, 15)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pbw6q"]
+size = Vector2(300, 300)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v1gob"]
+albedo_texture = ExtResource("3_rgh2o")
+uv1_scale = Vector3(225, 225, 225)
+
+[sub_resource type="Environment" id="Environment_idj7w"]
+background_mode = 1
+background_color = Color(0.32156864, 0.4, 0.43529412, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.6624652, 0.67759806, 0.6437013, 1)
+ambient_light_energy = 1.34
+fog_enabled = true
+fog_mode = 1
+fog_density = 1.0
+fog_depth_curve = 0.9012523
+fog_depth_begin = 30.0
+fog_depth_end = 98.5
+volumetric_fog_density = 0.0197
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_idj7w"]
 
 [node name="Node3D" type="Node3D"]
+
+[node name="Water" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5421924, 0)
+material_override = SubResource("ShaderMaterial_rgh2o")
+mesh = SubResource("PlaneMesh_c1w88")
+surface_material_override/0 = SubResource("StandardMaterial3D_idj7w")
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_pbw6q")
+surface_material_override/0 = SubResource("StandardMaterial3D_v1gob")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_idj7w")
+
+[node name="Player" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_idj7w")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.98203456, 0.18870127, 0, -0.18870127, 0.98203456, 0, 2.407608, 4.880249)
+current = true
+fov = 55.0
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8534145, 0)
+script = ExtResource("3_kln2b")
+disabled = false
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.9337243, 0.3579932, 0, -0.3579932, 0.9337243, 0, 3.7252789, 9.130482)
+fov = 60.0
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_pbw6q")
